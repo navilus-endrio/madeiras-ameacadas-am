@@ -418,7 +418,7 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
     <div class="brand hide-sm"><b>Análise técnica</b>20/11/2026</div>
     <nav aria-label="Seções">
       <a href="#resumo">Resumo</a><a href="#decidir">Como decidir</a><a href="#tempo">Linha do tempo</a>
-      <a href="#mudou">O que mudou</a><a href="#especies">Espécies</a><a href="#cites">Ipê, cumaru e cedro</a>
+      <a href="#especies">Espécies</a><a href="#mudou">O que mudou</a><a href="#cites">Ipê, cumaru e cedro</a>
       <a href="#asv">Supressão e nomes</a><a href="#agir">O que fazer</a>
     </nav>
     <button type="button" class="theme-btn" id="theme-btn" aria-label="Alternar modo claro e escuro" title="Alternar modo claro e escuro">
@@ -512,6 +512,37 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
   </div>
 </section>
 
+<section id="especies">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">As 83 espécies</div>
+      <h2>Situação de cada madeira</h2>
+      <p class="lede">“—” indica que a espécie não constava daquela lista. A planilha que acompanha a análise traz as 189 árvores do Amazonas.</p>
+    </header>
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Situação">
+        <button type="button" data-f="sit" data-v="" aria-pressed="true">Todas</button>
+        <button type="button" data-f="sit" data-v="Proibida" aria-pressed="false">Proibidas</button>
+        <button type="button" data-f="sit" data-v="Permitida com condições" aria-pressed="false">Permitidas</button>
+      </div>
+      <div class="seg" role="group" aria-label="Uso">
+        <button type="button" data-f="grupo" data-v="" aria-pressed="true">Todo uso</button>
+        <button type="button" data-f="grupo" data-v="Comercial" aria-pressed="false">Comercial</button>
+        <button type="button" data-f="grupo" data-v="Regional" aria-pressed="false">Regional</button>
+      </div>
+      <input id="busca" type="search" placeholder="Buscar espécie ou nome popular" aria-label="Buscar espécie ou nome popular">
+      <span class="count" id="cnt"></span>
+    </div>
+    <div class="siglas"><span><i class="dot" style="background:var(--out)"></i>Fora da lista</span><span><i class="dot" style="background:var(--vu)"></i><b>VU</b> Vulnerável</span><span><i class="dot" style="background:var(--en)"></i><b>EN</b> Em Perigo</span><span><i class="dot" style="background:var(--cr)"></i><b>CR</b> Criticamente em Perigo</span></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead id="th-sp"><tr><th data-k="sp">Espécie</th><th data-k="nome">Nome</th><th class="c" data-k="c14">2014</th><th class="c" data-k="c22">2022</th><th class="c" data-k="c26">2026</th><th data-k="sit">Situação e fundamento</th></tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <section id="mudou">
   <div class="wrap">
     <header>
@@ -572,37 +603,6 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
     </div>
     <div class="siglas"><span><i class="dot" style="background:var(--out)"></i>Fora da lista</span><span><i class="dot" style="background:var(--vu)"></i><b>VU</b> Vulnerável</span><span><i class="dot" style="background:var(--en)"></i><b>EN</b> Em Perigo</span><span><i class="dot" style="background:var(--cr)"></i><b>CR</b> Criticamente em Perigo</span></div>
     <div class="facts" id="facts"></div>
-  </div>
-</section>
-
-<section id="especies">
-  <div class="wrap">
-    <header>
-      <div class="eyebrow">As 83 espécies</div>
-      <h2>Situação de cada madeira</h2>
-      <p class="lede">“—” indica que a espécie não constava daquela lista. A planilha que acompanha a análise traz as 189 árvores do Amazonas.</p>
-    </header>
-    <div class="filters">
-      <div class="seg" role="group" aria-label="Situação">
-        <button type="button" data-f="sit" data-v="" aria-pressed="true">Todas</button>
-        <button type="button" data-f="sit" data-v="Proibida" aria-pressed="false">Proibidas</button>
-        <button type="button" data-f="sit" data-v="Permitida com condições" aria-pressed="false">Permitidas</button>
-      </div>
-      <div class="seg" role="group" aria-label="Uso">
-        <button type="button" data-f="grupo" data-v="" aria-pressed="true">Todo uso</button>
-        <button type="button" data-f="grupo" data-v="Comercial" aria-pressed="false">Comercial</button>
-        <button type="button" data-f="grupo" data-v="Regional" aria-pressed="false">Regional</button>
-      </div>
-      <input id="busca" type="search" placeholder="Buscar espécie ou nome popular" aria-label="Buscar espécie ou nome popular">
-      <span class="count" id="cnt"></span>
-    </div>
-    <div class="siglas"><span><i class="dot" style="background:var(--out)"></i>Fora da lista</span><span><i class="dot" style="background:var(--vu)"></i><b>VU</b> Vulnerável</span><span><i class="dot" style="background:var(--en)"></i><b>EN</b> Em Perigo</span><span><i class="dot" style="background:var(--cr)"></i><b>CR</b> Criticamente em Perigo</span></div>
-    <div class="tbl-wrap">
-      <table>
-        <thead id="th-sp"><tr><th data-k="sp">Espécie</th><th data-k="nome">Nome</th><th class="c" data-k="c14">2014</th><th class="c" data-k="c22">2022</th><th class="c" data-k="c26">2026</th><th data-k="sit">Situação e fundamento</th></tr></thead>
-        <tbody id="tb"></tbody>
-      </table>
-    </div>
   </div>
 </section>
 
