@@ -130,6 +130,11 @@ section > .wrap > header { display: grid; gap: 10px; margin-bottom: 28px; max-wi
 #flow .edge.on path { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 600; animation: draw .7s ease-out both; }
 @keyframes draw { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
 .sim label { font-weight: 700; display: block; margin-bottom: 6px; }
+.stepper { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.stepper button { width: 48px; height: 44px; font: 700 22px/1 var(--font-body); border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; transition: background .15s, border-color .15s, transform .1s; }
+.stepper button:hover { background: var(--sunk); border-color: var(--accent); }
+.stepper button:active { transform: scale(.94); }
+.stepper .num { flex: 1; text-align: center; font-size: 14px; color: var(--muted); }
 .sim select { width: 100%; font: 500 16px var(--font-body); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
 .res { margin-top: 16px; display: grid; gap: 12px; }
 .res .sp-name { font: italic 600 21px/1.2 var(--font-body); }
@@ -321,7 +326,12 @@ footer b { color: var(--ink); }
       <div class="panel sim">
         <div><label for="sel-sp">Espécie</label>
         <select id="sel-sp"></select>
-        <p class="muted" style="font-size:14px;margin-top:10px">O caminho destacado no fluxograma acompanha a espécie escolhida.</p></div>
+        <div class="stepper">
+          <button type="button" id="sp-prev" aria-label="Espécie anterior">&#8592;</button>
+          <span class="num" id="sp-pos" aria-live="polite"></span>
+          <button type="button" id="sp-next" aria-label="Próxima espécie">&#8594;</button>
+        </div>
+        <p class="muted" style="font-size:14px;margin-top:10px">Use as setas (ou ← → do teclado) para passar de uma espécie para outra. O caminho destacado no fluxograma acompanha a espécie escolhida.</p></div>
         <div class="res" id="res" aria-live="polite"></div>
       </div>
     </div>
@@ -670,10 +680,20 @@ const DADOS = {"lista": {"2014": 2113, "2022": 3209, "2026": 3730}, "arvoresAM":
     const cats = e.c26 !== null ? `<div class="cats"><span>2014</span>${chip(e.c14)}<span class="arrow">→</span><span>2022</span>${chip(e.c22)}<span class="arrow">→</span><span>2026</span>${chip(e.c26)}</div>` : `<div class="cats"><span>Lista do MMA 2026</span>${chip(null)}</div>`;
     res.innerHTML = `<div>${pill(e.sit)}</div><div><div class="sp-name">${esc(e.sp)}</div><div class="muted">${esc(e.nome)}</div></div>${cats}<ul>${d.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${e.fund ? `<div class="fund">${esc(e.fund)}</div>` : ""}`;
   }
-  sel.addEventListener("change", () => show(sel.value));
+  const pos = document.getElementById("sp-pos");
+  const showSel = () => { show(sel.value); pos.textContent = `${sel.selectedIndex + 1} de ${sel.options.length}`; };
+  const step = d => { const n = sel.options.length; sel.selectedIndex = (sel.selectedIndex + d + n) % n; showSel(); };
+  sel.addEventListener("change", showSel);
+  document.getElementById("sp-prev").addEventListener("click", () => step(-1));
+  document.getElementById("sp-next").addEventListener("click", () => step(1));
+  document.querySelector(".sim").addEventListener("keydown", ev => {
+    if (ev.target === sel || ev.altKey || ev.ctrlKey || ev.metaKey) return;
+    if (ev.key === "ArrowLeft") { step(-1); ev.preventDefault(); }
+    if (ev.key === "ArrowRight") { step(1); ev.preventDefault(); }
+  });
   const ferrea = E.findIndex(e => e.sp === "Dipteryx ferrea");
   sel.value = "e:" + (ferrea >= 0 ? ferrea : 0);
-  show(sel.value);
+  showSel();
 
   /* ---------- timeline ---------- */
   const T = [
