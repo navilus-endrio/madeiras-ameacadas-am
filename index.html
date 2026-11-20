@@ -127,7 +127,8 @@ section > .wrap > header { display: grid; gap: 10px; margin-bottom: 28px; max-wi
 #mapa { height: 520px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--sunk); z-index: 0; }
 .map-ctl { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin-bottom: 12px; }
 .map-ctl select { max-width: 340px; }
-.leaflet-container { font: 13px var(--font-body); }
+.leaflet-container { font: 13px var(--font-body); touch-action: none; }
+#mapa .leaflet-interactive:focus, #mapa path:focus { outline: none; }
 .leaflet-popup-content { margin: 10px 12px; line-height: 1.45; }
 @media (max-width: 520px) { #mapa { height: 400px; } }
 .split-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 10px; font-size: 15px; }
@@ -984,13 +985,12 @@ const DADOS = {"lista": {"2014": 2113, "2022": 3209, "2026": 3730}, "arvoresAM":
     if (!window.L || !DADOS.pontos) return;
     const P = DADOS.pontos, SP = P.sp, bySp = Object.fromEntries(E.map(e => [e.sp, e]));
     const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
-    const map = L.map("mapa", { scrollWheelZoom: false, zoomSnap: .25 });
+    const map = L.map("mapa", { scrollWheelZoom: true, touchZoom: true, zoomSnap: .25, zoomDelta: .5, wheelPxPerZoomLevel: 90, wheelDebounceTime: 20 });
     const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 13, attribution: "© OpenStreetMap" });
     const sat = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { maxZoom: 13, attribution: "Esri World Imagery" });
     let muni;
     const pts = L.layerGroup().addTo(map);
     L.control.layers({ "Só municípios": L.layerGroup().addTo(map), "Mapa (OpenStreetMap)": osm, "Satélite (Esri)": sat }, {}, { collapsed: true }).addTo(map);
-    map.on("click", () => map.scrollWheelZoom.enable());
     const pip = (x, y, ring) => { let c = false; for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) { const [xi, yi] = ring[i], [xj, yj] = ring[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
     const polys = f => f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
     const inF = (f, lon, lat) => polys(f).some(pg => pip(lon, lat, pg[0]) && !pg.slice(1).some(h => pip(lon, lat, h)));
