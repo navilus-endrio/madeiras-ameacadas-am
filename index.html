@@ -114,6 +114,12 @@ section > .wrap > header { display: grid; gap: 10px; margin-bottom: 28px; max-wi
 .split-bar .s-ok { background: var(--ok); animation-delay: .25s; }
 :root[data-theme="dark"] .split-bar div { color: #0e1310; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .split-bar div { color: #0e1310; } }
+.siglas { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 12px 0; font-size: 14px; color: var(--muted); }
+.siglas span { display: inline-flex; align-items: center; gap: 6px; }
+.siglas b { color: var(--ink); }
+.sig { font-size: 13px; color: var(--muted); margin: 2px 0 6px; text-align: left !important; }
+#ch-cat .hbar { grid-template-columns: 200px minmax(0, 1fr) 54px; }
+#ch-cat .hbar .lab { white-space: normal; }
 .split-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 10px; font-size: 15px; }
 .dot { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 7px; vertical-align: -1px; }
 @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -431,8 +437,8 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
     </div>
 
     <div class="msgs">
-      <div class="msg no"><h3>CR e EN: corte proibido</h3><p>Criticamente em Perigo e Em Perigo têm proteção integral: nada de corte, transporte ou venda da madeira (Port. 443, art. 2º).</p></div>
-      <div class="msg warn"><h3>VU também é protegida</h3><p>Vulnerável só é manejada pela exceção do art. 3º: reter 15% das árvores e no mínimo 4 por 100 ha em cada UT (IN MMA 1/2015).</p></div>
+      <div class="msg no"><h3>CR e EN: corte proibido</h3><p class="sig">CR = Criticamente em Perigo · EN = Em Perigo</p><p>Criticamente em Perigo e Em Perigo têm proteção integral: nada de corte, transporte ou venda da madeira (Port. 443, art. 2º).</p></div>
+      <div class="msg warn"><h3>VU também é protegida</h3><p class="sig">VU = Vulnerável</p><p>Vulnerável só é manejada pela exceção do art. 3º: reter 15% das árvores e no mínimo 4 por 100 ha em cada UT (IN MMA 1/2015).</p></div>
       <div class="msg no"><h3>Sem transição</h3><p>A Portaria 1.783 vale desde 28/10/2026. Espécie que virou EN sai do corte também em POA já aprovado.</p></div>
       <div class="msg ok"><h3>Cumaru-ferro liberado</h3><p>A IN IBAMA 5/2026 tirou o <i>Dipteryx ferrea</i> da lista de vedadas. Hoje é VU, permitido com condições.</p></div>
       <div class="msg info"><h3>O nome popular engana</h3><p>Louro-preto, tauari, cumaru e ipê juntam espécies permitidas e proibidas. Só a identificação botânica separa.</p></div>
@@ -509,11 +515,13 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
         <h3>Para onde foram as 83 madeireiras</h3>
         <p class="sub">Cada linha é um grupo de espécies que fez o mesmo caminho entre as três listas; quanto mais grossa, mais espécies. A cor é a categoria de 2026. Passe o mouse para ver o caminho e o número.</p>
         <div class="scroll-x"><svg id="sankey" viewBox="0 0 900 380" role="img" aria-label="Trajetória de categoria das 83 madeireiras entre 2014, 2022 e 2026"></svg></div>
+        <div class="siglas"><span><i class="dot" style="background:var(--out)"></i>Fora da lista</span><span><i class="dot" style="background:var(--vu)"></i><b>VU</b> Vulnerável</span><span><i class="dot" style="background:var(--en)"></i><b>EN</b> Em Perigo</span><span><i class="dot" style="background:var(--cr)"></i><b>CR</b> Criticamente em Perigo</span></div>
       </div>
       <div class="panel">
         <h3>Por que as 49 são proibidas</h3>
         <p class="sub">Fundamento da proibição</p>
         <div class="hbars" id="ch-proib"></div>
+        <p class="sig" style="margin-top:10px">EN = Em Perigo · CR = Criticamente em Perigo · VU = Vulnerável</p>
       </div>
       <div class="panel">
         <h3>Que regras valem para as 34 permitidas</h3>
@@ -526,6 +534,7 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
         <div class="hbars" id="ch-exs"></div>
       </div>
     </div>
+    <div class="siglas"><span><i class="dot" style="background:var(--out)"></i>Fora da lista</span><span><i class="dot" style="background:var(--vu)"></i><b>VU</b> Vulnerável</span><span><i class="dot" style="background:var(--en)"></i><b>EN</b> Em Perigo</span><span><i class="dot" style="background:var(--cr)"></i><b>CR</b> Criticamente em Perigo</span></div>
     <div class="facts" id="facts"></div>
   </div>
 </section>
@@ -551,6 +560,7 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
       <input id="busca" type="search" placeholder="Buscar espécie ou nome popular" aria-label="Buscar espécie ou nome popular">
       <span class="count" id="cnt"></span>
     </div>
+    <div class="siglas"><span><i class="dot" style="background:var(--out)"></i>Fora da lista</span><span><i class="dot" style="background:var(--vu)"></i><b>VU</b> Vulnerável</span><span><i class="dot" style="background:var(--en)"></i><b>EN</b> Em Perigo</span><span><i class="dot" style="background:var(--cr)"></i><b>CR</b> Criticamente em Perigo</span></div>
     <div class="tbl-wrap">
       <table>
         <thead id="th-sp"><tr><th data-k="sp">Espécie</th><th data-k="nome">Nome</th><th class="c" data-k="c14">2014</th><th class="c" data-k="c22">2022</th><th class="c" data-k="c26">2026</th><th data-k="sit">Situação e fundamento</th></tr></thead>
@@ -712,7 +722,8 @@ const DADOS = {"lista": {"2014": 2113, "2022": 3209, "2026": 3730}, "arvoresAM":
   const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fmt = n => n.toLocaleString("pt-BR");
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-  const chip = c => c ? `<span class="chip ${c}">${c}</span>` : `<span class="chip X">—</span>`;
+  const CATN = { VU: "Vulnerável", EN: "Em Perigo", CR: "Criticamente em Perigo", EW: "Extinta na Natureza" };
+  const chip = c => c ? `<span class="chip ${c}" title="${c} = ${CATN[c] || c}">${c}</span>` : `<span class="chip X">—</span>`;
   const pill = s => s === "Proibida" ? `<span class="pill no">Proibida</span>` : s === "Permitida com condições" ? `<span class="pill ok">Permitida com condições</span>` : `<span class="pill na">${esc(s)}</span>`;
   const NS = "http://www.w3.org/2000/svg";
   const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
@@ -908,7 +919,7 @@ const DADOS = {"lista": {"2014": 2113, "2022": 3209, "2026": 3730}, "arvoresAM":
   }
   hbars("ch-lista", [{ label: "2014 · Port. 443", v: DADOS.lista["2014"], c: "--out" }, { label: "2022 · Port. 148", v: DADOS.lista["2022"], c: "--wood" }, { label: "2026 · Port. 1.783", v: DADOS.lista["2026"], c: "--accent" }], DADOS.lista["2026"]);
   const ca = DADOS.catAM;
-  hbars("ch-cat", [{ label: "CR · Crítica", v: ca.CR || 0, c: "--cr" }, { label: "EN · Em perigo", v: ca.EN || 0, c: "--en" }, { label: "VU · Vulnerável", v: ca.VU || 0, c: "--vu" }], DADOS.arvoresAM);
+  hbars("ch-cat", [{ label: "CR · Criticamente em Perigo", v: ca.CR || 0, c: "--cr" }, { label: "EN · Em Perigo", v: ca.EN || 0, c: "--en" }, { label: "VU · Vulnerável", v: ca.VU || 0, c: "--vu" }], DADOS.arvoresAM);
   const P = E.filter(e => e.sit === "Proibida"), OK = E.filter(e => e.sit !== "Proibida");
   hbars("ch-proib", [
     { label: "EN na lista", v: P.filter(e => e.c26 === "EN").length, c: "--en" },
