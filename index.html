@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="pt-BR">
+<title>Madeiras Ameaçadas no Amazonas</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,500..800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: long report read top-down; summary first, then decision flow, time, lists, species, CITES, actions. */
+:root {
+  --bg: #f3f5f1; --surface: #ffffff; --sunk: #e8ece6; --ink: #16201a; --muted: #56655b; --line: #d5ddd4;
+  --accent: #2c6a47; --wood: #8a5528;
+  --ok: #23805a; --no: #b4271f; --cr: #b4271f; --en: #d0601a; --vu: #b38a0e; --out: #8d9890;
+  --font-display: "Archivo", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  --font-data: "JetBrains Mono", Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1310; --surface: #161d18; --sunk: #1d2620; --ink: #e4ebe5; --muted: #9caca1; --line: #2b372f;
+    --accent: #72c495; --wood: #d39a62;
+    --ok: #5cc690; --no: #f07468; --cr: #f07468; --en: #f2924f; --vu: #e2c04f; --out: #7e8a82;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1310; --surface: #161d18; --sunk: #1d2620; --ink: #e4ebe5; --muted: #9caca1; --line: #2b372f;
+  --accent: #72c495; --wood: #d39a62;
+  --ok: #5cc690; --no: #f07468; --cr: #f07468; --en: #f2924f; --vu: #e2c04f; --out: #7e8a82;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 400 17px/1.55 var(--font-body);
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(30px, 4.6vw, 52px); line-height: 1.04; font-weight: 750; font-stretch: 88%; }
+h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.1; font-weight: 720; font-stretch: 92%; }
+h3 { font-size: 19px; line-height: 1.25; font-weight: 680; }
+p { margin: 0; }
+em, .sp { font-style: italic; }
+.eyebrow { font: 700 12px/1.3 var(--font-data); text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent); }
+.muted { color: var(--muted); }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+/* nav */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 18px; min-height: 52px; }
+.brand { font: 700 13px/1.2 var(--font-data); letter-spacing: 0.04em; white-space: nowrap; }
+.brand span { color: var(--muted); font-weight: 500; }
+.top nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.top nav::-webkit-scrollbar { display: none; }
+.top nav a { text-decoration: none; color: var(--muted); font-weight: 600; font-size: 14px; padding: 6px 10px; border-radius: 6px; white-space: nowrap; }
+.top nav a:hover { color: var(--ink); background: var(--sunk); }
+
+section { padding-block: 56px; border-bottom: 1px solid var(--line); }
+section > .wrap > header { display: grid; gap: 10px; margin-bottom: 28px; max-width: 760px; }
+.lede { font-size: 19px; color: var(--muted); max-width: 68ch; }
+
+/* hero */
+.hero { padding-block: 44px 48px; }
+.hero h1 b { color: var(--no); font-weight: 800; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+.hero .lede { margin-top: 16px; }
+.split { margin-top: 26px; }
+.split-bar { display: flex; height: 54px; border-radius: 8px; overflow: hidden; background: var(--sunk); }
+.split-bar div { display: flex; align-items: center; padding-inline: 14px; color: #fff; font: 700 20px/1 var(--font-data); transform-origin: left; animation: grow 1s cubic-bezier(.2,.8,.2,1) both; min-width: 0; }
+.split-bar .s-no { background: var(--no); }
+.split-bar .s-ok { background: var(--ok); animation-delay: .25s; }
+:root[data-theme="dark"] .split-bar div { color: #0e1310; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .split-bar div { color: #0e1310; } }
+.split-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 10px; font-size: 15px; }
+.dot { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 7px; vertical-align: -1px; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.kpi { background: var(--surface); padding: 16px 18px; display: grid; gap: 4px; align-content: start; }
+.kpi .v { font: 700 34px/1 var(--font-data); font-variant-numeric: tabular-nums; }
+.kpi .l { font-size: 14px; color: var(--muted); line-height: 1.35; }
+.kpi.alert .v { color: var(--no); }
+
+/* key messages */
+.msgs { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 34px; }
+.msg { border-top: 3px solid var(--line); padding-top: 12px; display: grid; gap: 6px; align-content: start; }
+.msg.no { border-color: var(--no); } .msg.ok { border-color: var(--ok); } .msg.warn { border-color: var(--en); } .msg.info { border-color: var(--accent); }
+.msg h3 { font-size: 17px; }
+.msg p { font-size: 15.5px; color: var(--muted); }
+
+/* chips & pills */
+.chip { display: inline-block; min-width: 34px; text-align: center; font: 700 12px/1 var(--font-data); padding: 5px 7px; border-radius: 5px; border: 1px solid; }
+.chip.CR { color: var(--cr); border-color: var(--cr); background: color-mix(in srgb, var(--cr) 12%, transparent); }
+.chip.EN { color: var(--en); border-color: var(--en); background: color-mix(in srgb, var(--en) 12%, transparent); }
+.chip.VU { color: var(--vu); border-color: var(--vu); background: color-mix(in srgb, var(--vu) 14%, transparent); }
+.chip.X { color: var(--out); border-color: var(--line); background: transparent; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 700 13px/1.2 var(--font-body); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.pill.no { color: var(--no); background: color-mix(in srgb, var(--no) 12%, transparent); }
+.pill.ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 13%, transparent); }
+.pill.na { color: var(--muted); background: var(--sunk); }
+
+/* decision flow */
+.flow-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.sim { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 16px 28px; align-items: start; }
+.sim .res { margin-top: 0; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; min-width: 0; }
+.scroll-x { overflow-x: auto; }
+#flow { width: 100%; min-width: 720px; height: auto; display: block; }
+#flow .node rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.5; transition: opacity .35s, stroke .35s, stroke-width .35s; }
+#flow .node.q rect { fill: var(--sunk); }
+#flow .node.r-no rect { fill: color-mix(in srgb, var(--no) 14%, var(--surface)); stroke: var(--no); }
+#flow .node.r-ok rect { fill: color-mix(in srgb, var(--ok) 14%, var(--surface)); stroke: var(--ok); }
+#flow .node.r-na rect { fill: var(--surface); stroke: var(--out); stroke-dasharray: 4 3; }
+#flow text { fill: var(--ink); font: 600 15px var(--font-body); }
+#flow .node.r-no text { fill: var(--no); font-weight: 700; }
+#flow .node.r-ok text { fill: var(--ok); font-weight: 700; }
+#flow .edge path { fill: none; stroke: var(--out); stroke-width: 1.6; transition: opacity .35s, stroke .35s; }
+#flow .edge text { fill: var(--muted); font: 700 12px var(--font-data); }
+#flow .edge .lbl-bg { fill: var(--surface); }
+#flow.sel .node, #flow.sel .edge { opacity: .28; }
+#flow.sel .node.on, #flow.sel .edge.on { opacity: 1; }
+#flow .node.on rect { stroke: var(--accent); stroke-width: 3; }
+#flow .node.on.r-no rect { stroke: var(--no); } #flow .node.on.r-ok rect { stroke: var(--ok); }
+#flow .edge.on path { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 600; animation: draw .7s ease-out both; }
+@keyframes draw { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+.sim label { font-weight: 700; display: block; margin-bottom: 6px; }
+.sim select { width: 100%; font: 500 16px var(--font-body); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.res { margin-top: 16px; display: grid; gap: 12px; }
+.res .sp-name { font: italic 600 21px/1.2 var(--font-body); }
+.res .cats { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.res .cats span.arrow { color: var(--muted); }
+.res ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 15.5px; }
+.res .fund { font-size: 14px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 10px; }
+
+/* timeline */
+.ruler { width: 100%; min-width: 620px; height: auto; display: block; }
+.ruler text { fill: var(--muted); font: 600 12px var(--font-data); }
+.ruler .axis { stroke: var(--line); stroke-width: 2; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 14px; color: var(--muted); margin: 10px 0 26px; }
+.tl { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 0; }
+.tl::before { content: ""; position: absolute; left: 112px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.tl li { display: grid; grid-template-columns: 96px 32px minmax(0, 1fr); align-items: start; padding-block: 10px; animation: rise .5s ease-out both; }
+.tl .when { font: 700 13px/1.5 var(--font-data); text-align: right; color: var(--muted); padding-top: 2px; }
+.tl .mark { width: 14px; height: 14px; border-radius: 50%; margin: 5px 0 0 10px; border: 3px solid var(--bg); box-sizing: content-box; position: relative; z-index: 1; }
+.tl .what h3 { font-size: 17px; }
+.tl .what p { font-size: 15.5px; color: var(--muted); }
+.tl li.today .what h3 { color: var(--accent); }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.t-lista { background: var(--accent); } .t-mma { background: var(--wood); } .t-ibama { background: var(--en); } .t-dec { background: var(--out); } .t-prazo { background: var(--no); }
+.stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 30px; }
+.stage { position: relative; padding: 16px 26px 16px 18px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 6px; align-content: start; clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%, 16px 50%); padding-left: 30px; }
+.stage:first-child { clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 0 100%); padding-left: 18px; border-radius: 10px 0 0 10px; }
+.stage .d { font: 700 13px var(--font-data); color: var(--accent); }
+.stage.hot { background: color-mix(in srgb, var(--no) 10%, var(--surface)); }
+.stage.hot .d { color: var(--no); }
+.stage p { font-size: 15px; color: var(--muted); }
+
+/* charts */
+.charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.charts .panel h3 { margin-bottom: 4px; }
+.charts .panel .sub { font-size: 14.5px; color: var(--muted); margin-bottom: 14px; }
+.hbars { display: grid; gap: 10px; }
+.hbar { display: grid; grid-template-columns: 112px minmax(0, 1fr) 54px; gap: 10px; align-items: center; font-size: 14.5px; }
+.hbar .track { height: 22px; background: var(--sunk); border-radius: 4px; overflow: hidden; }
+.hbar .fill { height: 100%; border-radius: 4px; transform-origin: left; animation: grow .9s cubic-bezier(.2,.8,.2,1) both; }
+.hbar .n { font: 700 14px var(--font-data); text-align: right; font-variant-numeric: tabular-nums; }
+.hbar .lab { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wide { grid-column: 1 / -1; }
+#sankey { width: 100%; min-width: 560px; height: auto; display: block; }
+#sankey text { fill: var(--ink); font: 600 13px var(--font-body); }
+#sankey .yr { fill: var(--muted); font: 700 13px var(--font-data); }
+#sankey path { animation: fadein 1.1s ease-out both; }
+#sankey path:hover { opacity: .9 !important; }
+@keyframes fadein { from { opacity: 0; } }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
+.fact { display: grid; gap: 8px; align-content: start; }
+.fact h3 { font-size: 17px; }
+.fact .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: 14px; padding: 3px 9px; border-radius: 6px; background: var(--sunk); }
+.tag i { font-style: italic; }
+
+/* species table */
+.filters { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 14px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { font: 600 14px var(--font-body); border: 0; background: transparent; color: var(--muted); padding: 8px 12px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.filters input { font: 500 15px var(--font-body); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); min-width: 0; flex: 1 1 200px; max-width: 320px; }
+.count { font-size: 14px; color: var(--muted); }
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); max-height: 640px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+thead th { position: sticky; top: 0; background: var(--surface); text-align: left; font: 700 12px var(--font-data); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 12px 10px; border-bottom: 2px solid var(--line); z-index: 1; }
+td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.c { text-align: center; }
+tbody tr:hover td { background: var(--sunk); }
+td .fn { font-size: 13px; color: var(--muted); max-width: 46ch; }
+td .vn { font-size: 13.5px; color: var(--muted); }
+
+/* CITES */
+.cites-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.dmc th, .dmc td { padding: 10px; }
+.dmc td.v { font: 700 15px var(--font-data); text-align: center; }
+.story { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; position: relative; margin-top: 4px; }
+.story .st { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: grid; gap: 6px; background: var(--surface); align-content: start; }
+.story .st .d { font: 700 12px var(--font-data); color: var(--muted); }
+.story .st.no { border-color: var(--no); } .story .st.ok { border-color: var(--ok); }
+.story .st b { font-size: 15px; }
+.story .st p { font-size: 14px; color: var(--muted); }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 20px; }
+.rule { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 4px; align-content: start; }
+.rule .k { font: 700 22px var(--font-data); color: var(--accent); }
+.rule p { font-size: 14.5px; color: var(--muted); }
+
+/* names */
+.names { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.name-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 10px; align-content: start; }
+.name-card .vulgar { font: 750 22px var(--font-display); font-stretch: 90%; }
+.name-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.name-card li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; align-items: center; font-size: 15px; }
+.name-card li i { min-width: 0; }
+.name-card .note { font-size: 13.5px; color: var(--muted); }
+.asv { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-bottom: 34px; }
+.asv ol, .asv ul { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 15.5px; }
+.ban { border-left: 4px solid var(--no); }
+
+/* actions */
+.todo { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; counter-reset: t; }
+.todo li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; counter-increment: t; }
+.todo li::before { content: counter(t); font: 700 15px/30px var(--font-data); width: 30px; height: 30px; text-align: center; border-radius: 50%; background: var(--accent); color: var(--bg); }
+.todo b { display: block; margin-bottom: 2px; }
+.todo span { color: var(--muted); font-size: 15.5px; }
+details { margin-top: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+summary { cursor: pointer; font-weight: 700; }
+details ul { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); font-size: 15.5px; }
+footer { padding-block: 36px 52px; font-size: 14.5px; color: var(--muted); }
+footer .wrap { display: grid; gap: 10px; }
+footer b { color: var(--ink); }
+
+@media (max-width: 860px) {
+  .sim { grid-template-columns: minmax(0, 1fr); }
+  .hero-grid, .flow-grid, .charts, .cites-grid, .asv, .facts { grid-template-columns: minmax(0, 1fr); }
+  .stages { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .stage, .stage:first-child { clip-path: none; border-radius: 10px; padding-left: 18px; }
+  .story { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  .tl::before { left: 82px; }
+  .tl li { grid-template-columns: 66px 32px minmax(0, 1fr); }
+  .hbar { grid-template-columns: 92px minmax(0, 1fr) 44px; }
+  .story { grid-template-columns: minmax(0, 1fr); }
+  .kpi .v { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+
+<div class="top">
+  <div class="wrap">
+    <div class="brand">BRANDÃO <span>· Análise técnica 20/11/2026</span></div>
+    <nav aria-label="Seções">
+      <a href="#resumo">Resumo</a><a href="#decidir">Como decidir</a><a href="#tempo">Linha do tempo</a>
+      <a href="#mudou">O que mudou</a><a href="#especies">Espécies</a><a href="#cites">Ipê, cumaru e cedro</a>
+      <a href="#asv">Supressão e nomes</a><a href="#agir">O que fazer</a>
+    </nav>
+  </div>
+</div>
+
+<section class="hero" id="resumo">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Portaria GM/MMA nº 1.783/2026 · vigente desde 28/10/2026</div>
+        <h1 style="margin-top:12px">Das <span class="num" data-count="83">83</span> madeiras ameaçadas que ocorrem no Amazonas, <b><span class="num" data-count="49">49</span> não podem ser cortadas</b></h1>
+        <p class="lede">A nova lista nacional da flora ameaçada vale para planos de manejo em andamento, sem regra de transição. As outras 34 espécies podem ser exploradas em PMFS, mas só com retenção de árvores e, para ipês, cumarus e cedros, com as regras próprias do IBAMA.</p>
+        <div class="split" role="img" aria-label="49 proibidas e 34 permitidas com condições, de 83 madeireiras">
+          <div class="split-bar">
+            <div class="s-no" id="bar-no">49</div>
+            <div class="s-ok" id="bar-ok">34</div>
+          </div>
+          <div class="split-legend">
+            <span><i class="dot" style="background:var(--no)"></i>Proibida para corte madeireiro</span>
+            <span><i class="dot" style="background:var(--ok)"></i>Permitida com condições</span>
+          </div>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="v num" data-count="3730">3.730</span><span class="l">espécies da flora na lista nacional de 2026 (eram 2.113 em 2014)</span></div>
+        <div class="kpi"><span class="v num" data-count="189">189</span><span class="l">são árvores com ocorrência no Amazonas</span></div>
+        <div class="kpi"><span class="v num" data-count="24">24</span><span class="l">madeireiras entraram na lista agora, em 2026</span></div>
+        <div class="kpi alert"><span class="v num">0</span><span class="l">dias de transição para POA, AUTEX e saldos de DOF</span></div>
+      </div>
+    </div>
+
+    <div class="msgs">
+      <div class="msg no"><h3>CR e EN: corte proibido</h3><p>Criticamente em Perigo e Em Perigo têm proteção integral: nada de corte, transporte ou venda da madeira (Port. 443, art. 2º).</p></div>
+      <div class="msg warn"><h3>VU também é protegida</h3><p>Vulnerável só é manejada pela exceção do art. 3º: reter 15% das árvores e no mínimo 4 por 100 ha em cada UT (IN MMA 1/2015).</p></div>
+      <div class="msg no"><h3>Sem transição</h3><p>A Portaria 1.783 vale desde 28/10/2026. Espécie que virou EN sai do corte também em POA já aprovado.</p></div>
+      <div class="msg ok"><h3>Cumaru-ferro liberado</h3><p>A IN IBAMA 5/2026 tirou o <i>Dipteryx ferrea</i> da lista de vedadas. Hoje é VU, permitido com condições.</p></div>
+      <div class="msg info"><h3>O nome popular engana</h3><p>Louro-preto, tauari, cumaru e ipê juntam espécies permitidas e proibidas. Só a identificação botânica separa.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="decidir">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Fluxograma</div>
+      <h2>Posso explorar esta espécie em PMFS?</h2>
+      <p class="lede">Escolha uma espécie para ver o caminho da decisão e as condições que se aplicam a ela.</p>
+    </header>
+    <div class="flow-grid">
+      <div class="panel scroll-x"><svg id="flow" viewBox="0 0 980 560" role="img" aria-label="Fluxograma de decisão sobre a exploração madeireira"></svg></div>
+      <div class="panel sim">
+        <div><label for="sel-sp">Espécie</label>
+        <select id="sel-sp"></select>
+        <p class="muted" style="font-size:14px;margin-top:10px">O caminho destacado no fluxograma acompanha a espécie escolhida.</p></div>
+        <div class="res" id="res" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tempo">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Linha do tempo</div>
+      <h2>Vinte e três anos de normas, três versões da lista</h2>
+      <p class="lede">A Portaria 443/2014 continua sendo a regra de proteção. As portarias de 2022 e 2026 só trocaram a lista anexa. Decretos e instruções normativas acrescentam regras por espécie.</p>
+    </header>
+    <div class="scroll-x"><svg class="ruler" id="ruler" viewBox="0 0 900 96" role="img" aria-label="Régua de anos de 2003 a 2026 com as normas"></svg></div>
+    <div class="legend-row">
+      <span><i class="dot t-lista"></i>Lista do MMA</span><span><i class="dot t-mma"></i>Regra do MMA</span>
+      <span><i class="dot t-ibama"></i>IBAMA / CITES</span><span><i class="dot t-dec"></i>Decreto</span><span><i class="dot t-prazo"></i>Prazo</span>
+    </div>
+    <ol class="tl" id="tl"></ol>
+
+    <h3 style="margin-top:40px">O que vale para cada POA</h3>
+    <div class="stages">
+      <div class="stage"><span class="d">até 24/11/2024</span><b>POA autorizado antes da CITES</b><p>Ipês, cumarus e cedros seguem os critérios anteriores ao Parecer de Extração Não Prejudicial (IN IBAMA 28/2024, art. 20).</p></div>
+      <div class="stage"><span class="d">desde 25/11/2025</span><b>Medidas da IN IBAMA 28 obrigatórias</b><p>IF100% a partir de 20 cm de DAP, amostragem de 0,5% entre 10 e 19,9 cm, mapas de ocorrência e vistoria (art. 21).</p></div>
+      <div class="stage hot"><span class="d">desde 28/10/2026</span><b>Lista nova para todos os POA</b><p>Sem transição: tirar do corte as espécies que viraram EN e aplicar a retenção às que entraram como VU. Confirmar saldos com o IPAAM antes de emitir DOF.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="mudou">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">2014 → 2022 → 2026</div>
+      <h2>A lista cresceu, e mais madeira ficou de fora do corte</h2>
+      <p class="lede">A lista da flora quase dobrou desde 2014. Entre as árvores do Amazonas, 111 estão Em Perigo.</p>
+    </header>
+    <div class="charts">
+      <div class="panel">
+        <h3>Tamanho da lista nacional da flora</h3>
+        <p class="sub">Táxons no anexo de cada portaria</p>
+        <div class="hbars" id="ch-lista"></div>
+      </div>
+      <div class="panel">
+        <h3>Árvores do Amazonas na lista de 2026</h3>
+        <p class="sub">Por categoria de risco (189 espécies)</p>
+        <div class="hbars" id="ch-cat"></div>
+      </div>
+      <div class="panel wide">
+        <h3>Para onde foram as 83 madeireiras</h3>
+        <p class="sub">Categoria de cada espécie nas três versões da lista. A faixa larga à esquerda são espécies que não estavam na lista de 2014. Passe o mouse para ver os números.</p>
+        <div class="scroll-x"><svg id="sankey" viewBox="0 0 900 380" role="img" aria-label="Fluxo das 83 madeireiras entre categorias de 2014, 2022 e 2026"></svg></div>
+      </div>
+      <div class="panel">
+        <h3>Por que as 49 são proibidas</h3>
+        <p class="sub">Fundamento da proibição</p>
+        <div class="hbars" id="ch-proib"></div>
+      </div>
+      <div class="panel">
+        <h3>Que regras valem para as 34 permitidas</h3>
+        <p class="sub">Conjunto de normas que se somam à Portaria 443</p>
+        <div class="hbars" id="ch-perm"></div>
+      </div>
+      <div class="panel wide">
+        <h3>As madeiras ameaçadas mais coletadas no Amazonas</h3>
+        <p class="sub">Exsicatas em herbário com origem no estado (GBIF). Indicam onde a lista mais pesa no campo.</p>
+        <div class="hbars" id="ch-exs"></div>
+      </div>
+    </div>
+    <div class="facts" id="facts"></div>
+  </div>
+</section>
+
+<section id="especies">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">As 83 espécies</div>
+      <h2>Situação de cada madeira</h2>
+      <p class="lede">“—” indica que a espécie não constava daquela lista. A planilha que acompanha a análise traz as 189 árvores do Amazonas.</p>
+    </header>
+    <div class="filters">
+      <div class="seg" role="group" aria-label="Situação">
+        <button type="button" data-f="sit" data-v="" aria-pressed="true">Todas</button>
+        <button type="button" data-f="sit" data-v="Proibida" aria-pressed="false">Proibidas</button>
+        <button type="button" data-f="sit" data-v="Permitida com condições" aria-pressed="false">Permitidas</button>
+      </div>
+      <div class="seg" role="group" aria-label="Uso">
+        <button type="button" data-f="grupo" data-v="" aria-pressed="true">Todo uso</button>
+        <button type="button" data-f="grupo" data-v="Comercial" aria-pressed="false">Comercial</button>
+        <button type="button" data-f="grupo" data-v="Regional" aria-pressed="false">Regional</button>
+      </div>
+      <input id="busca" type="search" placeholder="Buscar espécie ou nome popular" aria-label="Buscar espécie ou nome popular">
+      <span class="count" id="cnt"></span>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Espécie</th><th>Nome</th><th>2014</th><th>2022</th><th>2026</th><th>Situação e fundamento</th></tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="cites">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">IN IBAMA 28/2024 e IN IBAMA 5/2026</div>
+      <h2>Ipês, cumarus e cedros têm regras próprias</h2>
+      <p class="lede">Esses gêneros estão no Anexo II da CITES. O IBAMA fixou diâmetro mínimo de corte, intensidade máxima e vistoria, valendo estejam ou não na lista do MMA.</p>
+    </header>
+    <div class="cites-grid">
+      <div class="panel">
+        <h3 style="margin-bottom:12px">Diâmetro mínimo de corte e intensidade máxima</h3>
+        <div class="scroll-x">
+          <table class="dmc">
+            <thead><tr><th>Gênero</th><th>F. Ombrófila Densa</th><th>Aberta, Estacional, Savana, Campinarana</th></tr></thead>
+            <tbody>
+              <tr><td><i>Handroanthus</i> e <i>Tabebuia</i> (ipês)</td><td class="v">70 cm · 70%</td><td class="v">60 cm · 70%</td></tr>
+              <tr><td><i>Dipteryx</i> (cumarus)</td><td class="v">80 cm · 75%</td><td class="v">60 cm · 75%</td></tr>
+              <tr><td><i>Cedrela</i> (cedros)</td><td class="v">70 cm · 50%</td><td class="v">55 cm · 70%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" style="font-size:14px;margin-top:10px">Área com mais de um tipo de vegetação, sendo um deles Ombrófila Densa: vale o critério mais restritivo para toda a área (art. 6º).</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:12px">O cumaru-ferro em 2026</h3>
+        <div class="story">
+          <div class="st no"><span class="d">dez/2024</span><b>Vedado</b><p>Art. 24 da IN IBAMA 28/2024, por recomendação do NDF.</p></div>
+          <div class="st ok"><span class="d">05/02/2026</span><b>Liberado</b><p>IN IBAMA 5/2026 retira a espécie do art. 24.</p></div>
+          <div class="st"><span class="d">28/10/2026</span><b>Entra como VU</b><p>Portaria 1.783/2026 inclui na lista nacional.</p></div>
+          <div class="st ok"><span class="d">hoje</span><b>Permitido com condições</b><p>IN MMA 1/2015 + DMC 80/60 cm e 75% da IN 28.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule"><span class="k">&lt; 5 / 100 ha</span><b>Espécie rara</b><p>Com DAP ≥ 20 cm, nenhum indivíduo pode ser cortado (art. 10).</p></div>
+      <div class="rule"><span class="k">15% · 4 / 100 ha</span><b>Retenção</b><p>Manter 15% das árvores aptas e no mínimo 4 por 100 ha em cada UT (art. 9º).</p></div>
+      <div class="rule"><span class="k">3% · 4 / UT</span><b>Coleta botânica</b><p>Das árvores selecionadas, com laudo do RT e depósito em herbário (art. 12).</p></div>
+      <div class="rule"><span class="k">≥ 70%</span><b>Vistoria pré-exploratória</b><p>Quando o mapa indica alta probabilidade de espécie vedada, e sempre em PMFS com até 3 UPAs (art. 15).</p></div>
+      <div class="rule"><span class="k">20 cm</span><b>Vedadas no inventário</b><p>As espécies vedadas também são medidas no IF100% a partir de 20 cm de DAP (art. 24, parágrafo único).</p></div>
+      <div class="rule"><span class="k">gênero ✕</span><b>Só até gênero, não</b><p>Produto identificado só até gênero não pode ser explorado (art. 29); igapó de água-preta também não (art. 27).</p></div>
+    </div>
+    <div class="panel" style="margin-top:20px">
+      <h3>As oito espécies que continuam vedadas</h3>
+      <p class="muted" style="font-size:15px;margin:4px 0 12px">Quatro delas ocorrem no Amazonas e nem estão na lista do MMA: a proibição vem só do IBAMA.</p>
+      <div class="scroll-x">
+        <table>
+          <thead><tr><th>Espécie</th><th>Nome popular</th><th>Lista MMA 2026</th><th>Ocorre no AM</th></tr></thead>
+          <tbody id="tb-ved"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="asv">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Supressão e identificação</div>
+      <h2>Na ASV a lista condiciona; no inventário, o nome popular confunde</h2>
+    </header>
+    <div class="asv">
+      <div class="panel">
+        <h3>Supressão de vegetação (IN MMA 2/2015)</h3>
+        <ul>
+          <li>A lista não impede a ASV por si, mas o licenciador avalia alternativas locacionais e a relevância da área (art. 2º).</li>
+          <li>A autorização vem com mitigação e compensação proporcionais à categoria de risco (art. 5º).</li>
+          <li>A madeira gerada deve ter aproveitamento previsto (art. 6º).</li>
+        </ul>
+      </div>
+      <div class="panel ban">
+        <h3>Duas vedações absolutas</h3>
+        <ul>
+          <li><b>Mogno:</b> abate proibido mesmo em área de supressão autorizada (Decreto 4.722/2003, art. 3º).</li>
+          <li><b>Área de manejo com espécie CITES:</b> não pode ter supressão de vegetação nativa autorizada (IN IBAMA 28/2024, art. 28).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="names" id="names"></div>
+  </div>
+</section>
+
+<section id="agir">
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Recomendações</div>
+      <h2>O que fazer agora</h2>
+    </header>
+    <ol class="todo">
+      <li><div><b>Revisar POA em execução e inventários em elaboração</b><span>Tirar do corte as espécies que passaram a EN em 2026 (cedro-rosa, cerejeira, tauari, itaúba-abacate, angelim) e aplicar a retenção às que entraram como VU, em especial o cumaru.</span></div></li>
+      <li><div><b>Consultar o IPAAM por escrito</b><span>Sobre POA aprovados e saldos no SINAFLOR/DOF das espécies alcançadas pela nova lista, já que a Portaria 1.783/2026 não tem transição.</span></div></li>
+      <li><div><b>Planejar os POA com ipê, cumaru ou cedro</b><span>Coleta botânica de 3% (mín. 4 por UT) com laudo e herbário, teste de raridade, tipo de vegetação da UPA e vistoria quando exigida.</span></div></li>
+      <li><div><b>Medir as vedadas no IF100%</b><span>Cedro-rosa, <i>D. micrantha</i>, <i>D. charapilla</i>, <i>D. rosea</i>, <i>H. obscurus</i>, <i>H. uleanus</i>, <i>T. fluviatilis</i> e <i>T. pilosa</i>, a partir de 20 cm de DAP, sem corte.</span></div></li>
+      <li><div><b>Identificar até espécie</b><span>Louro-preto, tauari, itaúba, abiurana, matamatá, tachi e cumaru. Revisar na base de espécies da Brandão os 53 registros de louro-preto atribuídos a <i>Dicypellium manausense</i>.</span></div></li>
+      <li><div><b>Nas ASV, compensar e excluir o mogno</b><span>Prever mitigação e compensação para as ameaçadas inventariadas e não incluir abate de mogno.</span></div></li>
+    </ol>
+    <details>
+      <summary>Limitações da análise</summary>
+      <ul>
+        <li>IN MMA 1/2015 e 2/2015 lidas em reprodução de escritório de advocacia; conferir no DOU antes de citar em peça processual.</li>
+        <li>IN IBAMA 28/2024 lida na versão assinada do SEI (nº 21417586, que a numera 27); a versão do DOU de 13/12/2024 não foi conferida.</li>
+        <li>Os mapas de probabilidade do Anexo II da IN 28 não foram examinados espécie a espécie.</li>
+        <li>Não foram lidos a Portaria MMA 43/2014, a norma técnica do mogno nem os PAN das espécies; outras normas estaduais não foram pesquisadas.</li>
+        <li>O uso madeireiro é classificação técnica, não normativa. A ocorrência no Amazonas segue a Flora e Funga do Brasil; 80 espécies com exsicata no estado fora dessa distribuição estão na planilha para conferência.</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><b>Fonte:</b> Análise Técnica – Espécies madeireiras ameaçadas de extinção com ocorrência no Amazonas, 20/11/2026. Portarias MMA 443/2014 e 148/2022, GM/MMA 1.783/2026; IN MMA 1/2015 e 2/2015; IN IBAMA 28/2024 e 5/2026; Decretos 4.722/2003 e 5.975/2006; Flora e Funga do Brasil (JBRJ, nov. 2026); GBIF.</p>
+    <p><b>Endrio Sulivam Texeira da Silva</b>, Engenheiro Florestal – CREA 37335AM · Brandão Engenharia e Projetos LTDA</p>
+  </div>
+</footer>
+
+<script>
+const DADOS = {"lista": {"2014": 2113, "2022": 3209, "2026": 3730}, "arvoresAM": 189, "catAM": {"VU": 70, "EN": 111, "CR": 8}, "trajetoria": {"Nova em 2026": 42, "Entrou em 2022": 118, "Inalterada desde 2014": 19, "Mudou de categoria": 10}, "todasSit": {"Permitida com condições": 69, "Proibida": 120}, "especies": [{"sp": "Aldina heterophylla", "nome": "macucu, cumaru-de-campina", "fam": "Fabaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 159, "base": []}, {"sp": "Allantoma pauciramosa", "nome": "tauari, ceru", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 25, "base": []}, {"sp": "Amburana acreana", "nome": "cerejeira, cumaru-de-cheiro", "fam": "Fabaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "VU→EN em 2026", "regra": "lista", "exs": 2, "base": []}, {"sp": "Andira multistipula", "nome": "angelim, andira", "fam": "Fabaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Nova em 2026", "regra": "geral", "exs": 64, "base": []}, {"sp": "Aniba ferrea", "nome": "louro-ferro", "fam": "Lauraceae", "grupo": "Regional", "c14": "VU", "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "VU→EN em 2022", "regra": "lista", "exs": 71, "base": ["louro-ferro (4)"]}, {"sp": "Aniba rosodora", "nome": "pau-rosa (madeira destilada p/ óleo essencial)", "fam": "Lauraceae", "grupo": "Comercial", "c14": "EN", "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Inalterada desde 2014", "regra": "lista", "exs": 68, "base": ["pau-rosa (4)"]}, {"sp": "Anisophyllea manausensis", "nome": "pau-canela", "fam": "Anisophylleaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 64, "base": ["pau-canela (13)"]}, {"sp": "Apuleia leiocarpa", "nome": "garapa, garapeira", "fam": "Fabaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Inalterada desde 2014", "regra": "geral", "exs": 7, "base": ["garapeira (3)"]}, {"sp": "Aspidosperma huberianum", "nome": "carapanaúba, araracanga", "fam": "Apocynaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 3, "base": []}, {"sp": "Aspidosperma obscurinervium", "nome": "piquiá-marfim, carapanaúba", "fam": "Apocynaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 49, "base": []}, {"sp": "Astronium ulei", "nome": "muiracatiara, aroeira", "fam": "Anacardiaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 11, "base": []}, {"sp": "Bertholletia excelsa", "nome": "castanheira (corte proibido, Decreto 5.975/2006)", "fam": "Lecythidaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Proibida", "fund": "Decreto 5.975/2006, art. 29 (castanheira); VU na lista", "mud": "Inalterada desde 2014", "regra": "norma", "exs": 167, "base": []}, {"sp": "Caraipa balbinensis", "nome": "tamaquaré", "fam": "Calophyllaceae", "grupo": "Regional", "c14": null, "c22": "CR", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022 (CR); CR→EN em 2026", "regra": "lista", "exs": 5, "base": []}, {"sp": "Caraipa rodriguesii", "nome": "tamaquaré", "fam": "Calophyllaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 23, "base": []}, {"sp": "Caryocar gracile", "nome": "piquiarana", "fam": "Caryocaraceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Nova em 2026", "regra": "geral", "exs": 102, "base": []}, {"sp": "Cedrela fissilis", "nome": "cedro-rosa", "fam": "Meliaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "VU→EN em 2026", "regra": "lista", "exs": 24, "base": []}, {"sp": "Cedrela odorata", "nome": "cedro, cedro-vermelho", "fam": "Meliaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Port. 443, art. 3º; IN MMA 1/2015; IN IBAMA 28/2024: DMC 70 cm e intensidade máx. 50% (F. Ombrófila Densa); 55 cm e 70% (demais)", "mud": "Inalterada desde 2014", "regra": "cites", "exs": 62, "base": []}, {"sp": "Chrysophyllum durifructum", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 3, "base": []}, {"sp": "Chrysophyllum wilsonii", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 11, "base": []}, {"sp": "Couratari atrovinosa", "nome": "tauari, ripeiro", "fam": "Lecythidaceae", "grupo": "Comercial", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 27, "base": []}, {"sp": "Couratari longipedicellata", "nome": "tauari", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 42, "base": []}, {"sp": "Couratari tauari", "nome": "tauari", "fam": "Lecythidaceae", "grupo": "Comercial", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 45, "base": ["tauari (4)"]}, {"sp": "Dicypellium manausense", "nome": "louro-preto", "fam": "Lauraceae", "grupo": "Regional", "c14": null, "c22": "CR", "c26": "CR", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (CR)", "mud": "Entrou em 2022", "regra": "lista", "exs": 32, "base": ["louro-preto (53)"]}, {"sp": "Didymopanax plurifolius", "nome": "morototó", "fam": "Araliaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 7, "base": []}, {"sp": "Diospyros bullata", "nome": "caquirana", "fam": "Ebenaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 153, "base": ["caquirana (5)"]}, {"sp": "Diplotropis rodriguesii", "nome": "sucupira", "fam": "Fabaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 16, "base": []}, {"sp": "Dipteryx ferrea", "nome": "cumaru-ferro", "fam": "Fabaceae", "grupo": "Comercial", "c14": null, "c22": null, "c26": "VU", "sit": "Permitida com condições", "fund": "Port. 443, art. 3º; IN MMA 1/2015; IN IBAMA 28/2024: DMC 80 cm (F. Ombrófila Densa) ou 60 cm (demais), intensidade máx. 75%; saiu da vedação do art. 24 pela IN IBAMA 5/2026", "mud": "Nova em 2026", "regra": "cites", "exs": 14, "base": []}, {"sp": "Dipteryx micrantha", "nome": "cumaru", "fam": "Fabaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 27, "base": []}, {"sp": "Dipteryx odorata", "nome": "cumaru", "fam": "Fabaceae", "grupo": "Comercial", "c14": null, "c22": null, "c26": "VU", "sit": "Permitida com condições", "fund": "Port. 443, art. 3º; IN MMA 1/2015; IN IBAMA 28/2024: DMC 80 cm (F. Ombrófila Densa) ou 60 cm (demais), intensidade máx. 75%", "mud": "Nova em 2026", "regra": "cites", "exs": 298, "base": ["cumaru-roxo (31)", "cumaru (8)", "cumaru-ferro (1)"]}, {"sp": "Endlicheria coriacea", "nome": "louro-pirarucu", "fam": "Lauraceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 24, "base": []}, {"sp": "Erisma fuscum", "nome": "quarubarana, cedrinho", "fam": "Vochysiaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 27, "base": []}, {"sp": "Eschweilera carinata", "nome": "matamatá", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 60, "base": []}, {"sp": "Eschweilera rankiniae", "nome": "matamatá", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 27, "base": []}, {"sp": "Eschweilera rhododendrifolia", "nome": "matamatá", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 71, "base": []}, {"sp": "Eschweilera romeu-cardosoi", "nome": "matamatá, ripeiro", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 393, "base": ["ripeiro (31)", "matá-matá-do-romeu (18)"]}, {"sp": "Euxylophora paraensis", "nome": "pau-amarelo, amarelão", "fam": "Rutaceae", "grupo": "Comercial", "c14": "CR", "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "CR→EN em 2022", "regra": "lista", "exs": 12, "base": []}, {"sp": "Guarea crispa", "nome": "jitó", "fam": "Meliaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 21, "base": []}, {"sp": "Guarea juglandiformis", "nome": "jitó", "fam": "Meliaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 15, "base": []}, {"sp": "Guarea sprucei", "nome": "jitó", "fam": "Meliaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 8, "base": []}, {"sp": "Guarea venenata", "nome": "jitó", "fam": "Meliaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 14, "base": []}, {"sp": "Hymenaea parvifolia", "nome": "jutaí, jatobá", "fam": "Fabaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Inalterada desde 2014", "regra": "geral", "exs": 123, "base": ["jatobá (1)"]}, {"sp": "Hymenolobium excelsum", "nome": "angelim-da-mata", "fam": "Fabaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Inalterada desde 2014", "regra": "geral", "exs": 23, "base": ["angelim-da-mata (1)"]}, {"sp": "Hymenolobium heterocarpum", "nome": "angelim, sucupira", "fam": "Fabaceae", "grupo": "Comercial", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 184, "base": []}, {"sp": "Iryanthera dialyandra", "nome": "ucuubarana", "fam": "Myristicaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 97, "base": []}, {"sp": "Lecythis barnebyi", "nome": "jarana", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Nova em 2026", "regra": "geral", "exs": 137, "base": []}, {"sp": "Lecythis serrata", "nome": "matamatá-branco, jarana", "fam": "Lecythidaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 0, "base": []}, {"sp": "Mezilaurus decurrens", "nome": "itaúba", "fam": "Lauraceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 5, "base": []}, {"sp": "Mezilaurus duckei", "nome": "itaúba-abacate", "fam": "Lauraceae", "grupo": "Comercial", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 96, "base": ["itaúba-abacate (8)", "itaúbão (1)"]}, {"sp": "Mezilaurus itauba", "nome": "itaúba", "fam": "Lauraceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Inalterada desde 2014", "regra": "geral", "exs": 190, "base": ["itaúba (43)"]}, {"sp": "Mezilaurus micrantha", "nome": "itaúba", "fam": "Lauraceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 27, "base": []}, {"sp": "Micropholis grandiflora", "nome": "rosadinho, abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Nova em 2026", "regra": "geral", "exs": 6, "base": []}, {"sp": "Micropholis splendens", "nome": "rosadinho, abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": "EN", "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Inalterada desde 2014", "regra": "lista", "exs": 83, "base": []}, {"sp": "Nectandra grisea", "nome": "louro-preto", "fam": "Lauraceae", "grupo": "Regional", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Inalterada desde 2014", "regra": "geral", "exs": 15, "base": []}, {"sp": "Ocotea fragrantissima", "nome": "louro", "fam": "Lauraceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 24, "base": []}, {"sp": "Peltogyne altissima", "nome": "roxinho, pau-roxo", "fam": "Fabaceae", "grupo": "Comercial", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 7, "base": []}, {"sp": "Peltogyne excelsa", "nome": "roxinho, pau-roxo", "fam": "Fabaceae", "grupo": "Comercial", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 32, "base": []}, {"sp": "Peltogyne maranhensis", "nome": "roxinho, pau-roxo", "fam": "Fabaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Inalterada desde 2014", "regra": "geral", "exs": 1, "base": []}, {"sp": "Peltogyne paradoxa", "nome": "roxinho, pau-roxo", "fam": "Fabaceae", "grupo": "Comercial", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 4, "base": []}, {"sp": "Pouteria erythrochrysa", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 25, "base": []}, {"sp": "Pouteria flavilatex", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 11, "base": []}, {"sp": "Pouteria freitasii", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 17, "base": []}, {"sp": "Pouteria macrocarpa", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 5, "base": []}, {"sp": "Pouteria maxima", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 19, "base": []}, {"sp": "Pouteria multiflora", "nome": "abiurana, cutitiriba", "fam": "Sapotaceae", "grupo": "Regional", "c14": "VU", "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "VU→EN em 2022", "regra": "lista", "exs": 10, "base": []}, {"sp": "Pouteria pentamera", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 3, "base": []}, {"sp": "Pouteria resinosa", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 2, "base": []}, {"sp": "Pouteria stylifera", "nome": "abiurana", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 10, "base": []}, {"sp": "Pradosia lahoziana", "nome": "casca-doce", "fam": "Sapotaceae", "grupo": "Regional", "c14": null, "c22": "CR", "c26": "CR", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (CR)", "mud": "Entrou em 2022", "regra": "lista", "exs": 11, "base": []}, {"sp": "Qualea labouriauana", "nome": "mandioqueira", "fam": "Vochysiaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 15, "base": []}, {"sp": "Sloanea froesii", "nome": "urucurana", "fam": "Elaeocarpaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 3, "base": []}, {"sp": "Swartzia lamellata", "nome": "ingá-ferro, pacapeuá", "fam": "Fabaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 119, "base": ["ingá-ferro (10)"]}, {"sp": "Swietenia macrophylla", "nome": "mogno (CITES II)", "fam": "Meliaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Port. 443, art. 3º; IN MMA 1/2015; Decreto 4.722/2003 (só por manejo; abate proibido em supressão); norma técnica do IBAMA para o mogno", "mud": "Inalterada desde 2014", "regra": "mogno", "exs": 20, "base": []}, {"sp": "Tabebuia aurea", "nome": "ipê-amarelo-do-cerrado, caraíba", "fam": "Bignoniaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 2, "base": []}, {"sp": "Tachigali candelabrum", "nome": "tachi", "fam": "Fabaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 26, "base": []}, {"sp": "Tachigali prancei", "nome": "tachi", "fam": "Fabaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 2, "base": []}, {"sp": "Trichilia elsae", "nome": "jitó, breu-maxixe", "fam": "Meliaceae", "grupo": "Regional", "c14": null, "c22": null, "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Nova em 2026", "regra": "lista", "exs": 4, "base": []}, {"sp": "Virola guggenheimii", "nome": "ucuúba", "fam": "Myristicaceae", "grupo": "Regional", "c14": null, "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Entrou em 2022", "regra": "lista", "exs": 25, "base": []}, {"sp": "Virola surinamensis", "nome": "virola, ucuúba", "fam": "Myristicaceae", "grupo": "Comercial", "c14": "VU", "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Inalterada desde 2014", "regra": "geral", "exs": 235, "base": ["ucuúba (1)"]}, {"sp": "Vochysia assua", "nome": "quaruba", "fam": "Vochysiaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 14, "base": []}, {"sp": "Vochysia eximia", "nome": "quaruba", "fam": "Vochysiaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 7, "base": []}, {"sp": "Vochysia expansa", "nome": "quaruba", "fam": "Vochysiaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 29, "base": []}, {"sp": "Vochysia rufescens", "nome": "quaruba", "fam": "Vochysiaceae", "grupo": "Regional", "c14": null, "c22": "VU", "c26": "VU", "sit": "Permitida com condições", "fund": "Portaria MMA 443/2014, art. 3º; IN MMA 1/2015", "mud": "Entrou em 2022", "regra": "geral", "exs": 30, "base": []}, {"sp": "Vouacapoua americana", "nome": "acapu", "fam": "Fabaceae", "grupo": "Comercial", "c14": "EN", "c22": "EN", "c26": "EN", "sit": "Proibida", "fund": "Portaria MMA 443/2014, art. 2º (EN)", "mud": "Inalterada desde 2014", "regra": "lista", "exs": 29, "base": []}]};
+(function () {
+  const E = DADOS.especies;
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fmt = n => n.toLocaleString("pt-BR");
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const chip = c => c ? `<span class="chip ${c}">${c}</span>` : `<span class="chip X">—</span>`;
+  const pill = s => s === "Proibida" ? `<span class="pill no">Proibida</span>` : s === "Permitida com condições" ? `<span class="pill ok">Permitida com condições</span>` : `<span class="pill na">${esc(s)}</span>`;
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+  /* count-up */
+  if (!reduce) document.querySelectorAll("[data-count]").forEach(n => {
+    const to = +n.dataset.count, t0 = performance.now(), d = 900;
+    const step = t => { const k = Math.min(1, (t - t0) / d), v = Math.round(to * (1 - Math.pow(1 - k, 3))); n.textContent = fmt(v); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+
+  /* hero split */
+  const nNo = E.filter(e => e.sit === "Proibida").length, nOk = E.length - nNo;
+  document.getElementById("bar-no").style.flex = nNo; document.getElementById("bar-no").textContent = nNo;
+  document.getElementById("bar-ok").style.flex = nOk; document.getElementById("bar-ok").textContent = nOk;
+
+  /* ---------- decision flow ---------- */
+  const N = {
+    start: [490, 34, 300, 44, "Espécie encontrada no inventário", ""],
+    lista: [490, 122, 320, 50, "Está na lista do MMA de 2026?", "q"],
+    cites: [240, 222, 290, 50, "É ipê, cumaru ou cedro (CITES)?", "q"],
+    cat: [730, 222, 230, 50, "Qual a categoria?", "q"],
+    comum: [100, 352, 180, 66, "Fora destas regras|PMFS comum", "r-na"],
+    art24: [335, 352, 262, 50, "Está no art. 24 da IN IBAMA 28?", "q"],
+    proib: [600, 352, 190, 66, "Proibida|Port. 443, art. 2º", "r-no"],
+    norma: [860, 352, 210, 50, "Norma específica proíbe?", "q"],
+    ved: [225, 488, 190, 66, "Proibida|IN IBAMA 28, art. 24", "r-no"],
+    in28: [445, 488, 200, 66, "Permitida|regras da IN IBAMA 28", "r-ok"],
+    rnorma: [680, 488, 212, 66, "Proibida|Dec. 5.975 (castanheira)", "r-no"],
+    perm: [880, 488, 180, 66, "Permitida com|condições (art. 3º)", "r-ok"],
+  };
+  const EDG = [["start", "lista", ""], ["lista", "cites", "Não"], ["lista", "cat", "Sim"], ["cites", "comum", "Não"], ["cites", "art24", "Sim"],
+    ["art24", "ved", "Sim"], ["art24", "in28", "Não"], ["cat", "proib", "CR ou EN"], ["cat", "norma", "VU"], ["norma", "rnorma", "Sim"], ["norma", "perm", "Não"]];
+  const svg = document.getElementById("flow");
+  const edgeEls = {}, nodeEls = {};
+  EDG.forEach(([a, b, lab]) => {
+    const A = N[a], B = N[b], sx = A[0], sy = A[1] + A[3] / 2, tx = B[0], ty = B[1] - B[3] / 2, my = (sy + ty) / 2;
+    const g = el("g", { class: "edge" }, svg);
+    el("path", { d: `M${sx},${sy} V${my} H${tx} V${ty - 6}`, "marker-end": "url(#arr)" }, g);
+    if (lab) {
+      const lx = (sx + tx) / 2, w = lab.length * 7.6 + 12;
+      el("rect", { class: "lbl-bg", x: lx - w / 2, y: my - 10, width: w, height: 20, rx: 4 }, g);
+      const t = el("text", { x: lx, y: my + 4, "text-anchor": "middle" }, g); t.textContent = lab;
+    }
+    edgeEls[a + ">" + b] = g;
+  });
+  const defs = el("defs", {}, svg);
+  const mk = el("marker", { id: "arr", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 10, markerHeight: 10, markerUnits: "userSpaceOnUse", orient: "auto-start-reverse" }, defs);
+  el("path", { d: "M0,0 L10,5 L0,10 z", style: "fill: var(--out)" }, mk);
+  Object.entries(N).forEach(([id, [cx, cy, w, h, label, cls]]) => {
+    const g = el("g", { class: "node " + cls }, svg);
+    el("rect", { x: cx - w / 2, y: cy - h / 2, width: w, height: h, rx: cls === "q" ? 22 : 8 }, g);
+    const lines = label.split("|");
+    lines.forEach((ln, i) => { const t = el("text", { x: cx, y: cy + 5 + (i - (lines.length - 1) / 2) * 19, "text-anchor": "middle" }, g); t.textContent = ln; });
+    nodeEls[id] = g;
+  });
+
+  const GEN = { Dipteryx: "cumaru", Cedrela: "cedro", Handroanthus: "ipê", Tabebuia: "ipê" };
+  const VED = [
+    { sp: "Cedrela fissilis", nome: "cedro-rosa", lista: "EN", am: true },
+    { sp: "Dipteryx micrantha", nome: "cumaru", lista: "EN", am: true },
+    { sp: "Dipteryx charapilla", nome: "cumaru", lista: null, am: true },
+    { sp: "Dipteryx rosea", nome: "cumaru", lista: null, am: true },
+    { sp: "Handroanthus obscurus", nome: "ipê", lista: null, am: true },
+    { sp: "Handroanthus uleanus", nome: "ipê", lista: null, am: false },
+    { sp: "Tabebuia fluviatilis", nome: "ipê", lista: null, am: true },
+    { sp: "Tabebuia pilosa", nome: "ipê", lista: null, am: false },
+  ];
+  const VEDSET = new Set(VED.map(v => v.sp));
+  const EXTRA = [
+    ...VED.filter(v => !v.lista).map(v => ({ sp: v.sp, nome: v.nome, extra: "ved", am: v.am })),
+    { sp: "Handroanthus serratifolius", nome: "ipê-amarelo", extra: "cites" },
+    { sp: "Outra espécie fora da lista", nome: "qualquer outro gênero", extra: "comum" },
+  ];
+  const sel = document.getElementById("sel-sp");
+  const opt = (v, t) => { const o = document.createElement("option"); o.value = v; o.textContent = t; return o; };
+  const og1 = document.createElement("optgroup"); og1.label = "Madeireiras da lista com ocorrência no AM";
+  [...E].sort((a, b) => a.nome.localeCompare(b.nome, "pt")).forEach((e, i) => og1.appendChild(opt("e:" + E.indexOf(e), `${e.nome.split(" (")[0]} — ${e.sp}`)));
+  const og2 = document.createElement("optgroup"); og2.label = "Fora da lista do MMA";
+  EXTRA.forEach((x, i) => og2.appendChild(opt("x:" + i, `${x.nome} — ${x.sp}`)));
+  sel.append(og1, og2);
+
+  const IN1 = ["Manter pelo menos 15% das árvores aptas ao corte, com mínimo de 4 por 100 ha em cada UT (IN MMA 1/2015).",
+    "Manter todas as árvores se houver 4 ou menos por 100 ha acima do DMC na UT.",
+    "Seguir o Plano de Ação Nacional (PAN) da espécie, quando existir."];
+  const dmcTxt = g => g === "Dipteryx" ? "DMC 80 cm na Ombrófila Densa ou 60 cm nas demais; intensidade máxima 75%."
+    : g === "Cedrela" ? "DMC 70 cm e intensidade 50% na Ombrófila Densa; 55 cm e 70% nas demais."
+    : "DMC 70 cm na Ombrófila Densa ou 60 cm nas demais; intensidade máxima 70%.";
+  const IN28 = g => [dmcTxt(g), "Espécie rara (menos de 5 árvores por 100 ha com DAP ≥ 20 cm): nenhum corte.",
+    "Coleta botânica em 3% das árvores selecionadas, mín. 4 por UT, com depósito em herbário.",
+    "Vistoria pré-exploratória do órgão licenciador quando exigida (art. 15)."];
+
+  function decide(v) {
+    const [kind, idx] = v.split(":");
+    if (kind === "e") {
+      const e = E[+idx], g = e.sp.split(" ")[0];
+      if (e.c26 === "CR" || e.c26 === "EN") {
+        const extra = VEDSET.has(e.sp) ? ["Também está vedada pelo art. 24 da IN IBAMA 28/2024 e deve ser medida no IF100% a partir de 20 cm."] : [];
+        return { e, path: ["start", "lista", "cat", "proib"], items: ["Corte, transporte, beneficiamento e venda proibidos (Port. 443, art. 2º).", "Em ASV, entra nas medidas de mitigação e compensação (IN MMA 2/2015).", ...extra] };
+      }
+      if (e.regra === "norma") return { e, path: ["start", "lista", "cat", "norma", "rnorma"], items: ["Castanheira e seringueira não podem ser exploradas para madeira em floresta natural (Decreto 5.975/2006, art. 29).", "A norma específica prevalece sobre a categoria VU (Port. 443, art. 3º, I)."] };
+      let items = [...IN1];
+      if (e.regra === "cites") items = items.concat(IN28(g));
+      if (e.regra === "mogno") items.push("Mogno só por manejo florestal; abate proibido em área de supressão (Decreto 4.722/2003).");
+      if (e.sp === "Dipteryx ferrea") items.unshift("Saiu da vedação do art. 24 pela IN IBAMA 5/2026.");
+      return { e, path: ["start", "lista", "cat", "norma", "perm"], items };
+    }
+    const x = EXTRA[+idx];
+    const e = { sp: x.sp, nome: x.nome, c14: null, c22: null, c26: null, sit: x.extra === "ved" ? "Proibida" : x.extra === "cites" ? "Permitida com condições" : "Fora da lista", fund: "" };
+    if (x.extra === "ved") return { e, path: ["start", "lista", "cites", "art24", "ved"], items: ["Vedada por recomendação do Parecer de Extração Não Prejudicial (IN IBAMA 28/2024, art. 24, na redação da IN 5/2026).", "Deve ser medida no IF100% a partir de 20 cm de DAP, sem corte.", x.am ? "Ocorre no Amazonas (Flora e Funga do Brasil)." : "Não tem registro no Amazonas na Flora e Funga do Brasil."] };
+    if (x.extra === "cites") return { e, path: ["start", "lista", "cites", "art24", "in28"], items: IN28(x.sp.split(" ")[0]).concat(["Retenção de 15% e mín. 4 por 100 ha por UT (IN IBAMA 28/2024, art. 9º)."]) };
+    return { e, path: ["start", "lista", "cites", "comum"], items: ["Não é alcançada pela lista nem pela IN IBAMA 28. Segue as regras gerais do PMFS e a resolução estadual."] };
+  }
+
+  const res = document.getElementById("res");
+  function show(v) {
+    const d = decide(v), e = d.e;
+    svg.classList.add("sel");
+    Object.values(nodeEls).forEach(n => n.classList.remove("on"));
+    Object.values(edgeEls).forEach(n => n.classList.remove("on"));
+    d.path.forEach((id, i) => { nodeEls[id].classList.add("on"); if (i) { const g = edgeEls[d.path[i - 1] + ">" + id]; g.classList.remove("on"); void g.getBBox(); g.classList.add("on"); } });
+    const cats = e.c26 !== null ? `<div class="cats"><span>2014</span>${chip(e.c14)}<span class="arrow">→</span><span>2022</span>${chip(e.c22)}<span class="arrow">→</span><span>2026</span>${chip(e.c26)}</div>` : `<div class="cats"><span>Lista do MMA 2026</span>${chip(null)}</div>`;
+    res.innerHTML = `<div>${pill(e.sit)}</div><div><div class="sp-name">${esc(e.sp)}</div><div class="muted">${esc(e.nome)}</div></div>${cats}<ul>${d.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${e.fund ? `<div class="fund">${esc(e.fund)}</div>` : ""}`;
+  }
+  sel.addEventListener("change", () => show(sel.value));
+  const ferrea = E.findIndex(e => e.sp === "Dipteryx ferrea");
+  sel.value = "e:" + (ferrea >= 0 ? ferrea : 0);
+  show(sel.value);
+
+  /* ---------- timeline ---------- */
+  const T = [
+    [2003.43, "05/06/2003", "dec", "Decreto 4.722", "Mogno só pode ser explorado sob manejo florestal sustentável."],
+    [2006.91, "30/11/2006", "dec", "Decreto 5.975, art. 29", "Castanheira e seringueira não podem ser exploradas para madeira em floresta natural."],
+    [2008.43, "2008", "dec", "Decreto 6.472", "Proíbe o abate de mogno mesmo em área com supressão autorizada."],
+    [2014.96, "17/12/2014", "lista", "Portaria MMA 443", "Primeira lista desta série: 2.113 táxons. Art. 2º protege EW, CR, EN e VU; art. 3º abre o manejo de VU."],
+    [2015.12, "12/02/2015", "mma", "IN MMA 1/2015", "Condições para manejar VU na Amazônia: reter 15% e mín. 4 árvores por 100 ha por UT."],
+    [2015.52, "10/07/2015", "mma", "IN MMA 2/2015", "Supressão com espécie ameaçada: alternativas locacionais, mitigação e compensação."],
+    [2015.99, "30/12/2015", "prazo", "Fim da transição de 2015", "POA e ASV autorizados até esta data ficaram fora das restrições. Única transição da série."],
+    [2022.43, "07/06/2022", "lista", "Portaria MMA 148", "Nova lista anexa: 3.209 táxons."],
+    [2024.90, "24/11/2024", "prazo", "Marco da CITES", "POA autorizados até aqui seguem os critérios antigos para ipês, cumarus e cedros."],
+    [2024.95, "11/12/2024", "ibama", "IN IBAMA 28/2024", "Manejo das espécies CITES: DMC, intensidade, coleta, vistoria e nove espécies vedadas."],
+    [2025.90, "25/11/2025", "prazo", "Medidas da IN 28 obrigatórias", "IF100% a partir de 20 cm, amostragem de 0,5%, mapas e vistoria para novos POA."],
+    [2026.09, "03/02/2026", "ibama", "IN IBAMA 5/2026", "Cumaru-ferro sai da vedação; as vedadas passam a ser medidas a partir de 20 cm no IF100%."],
+    [2026.82, "26/10/2026", "lista", "Portaria GM/MMA 1.783", "Nova lista: 3.730 táxons. Revoga a 148/2022 e vale desde 28/10/2026, sem transição."],
+    [2026.89, "20/11/2026", "today", "Esta análise", "Situação de cada uma das 83 madeireiras do Amazonas."],
+  ];
+  const tl = document.getElementById("tl");
+  T.forEach((t, i) => {
+    const li = document.createElement("li");
+    if (t[2] === "today") li.className = "today";
+    li.style.animationDelay = (i * 0.05) + "s";
+    li.innerHTML = `<span class="when">${t[1]}</span><span class="mark t-${t[2] === "today" ? "lista" : t[2]}"></span><div class="what"><h3>${t[3]}</h3><p>${t[4]}</p></div>`;
+    tl.appendChild(li);
+  });
+  const ru = document.getElementById("ruler"), x0 = 30, x1 = 870, y0 = 2003, y1 = 2027, X = y => x0 + (y - y0) / (y1 - y0) * (x1 - x0);
+  el("line", { class: "axis", x1: x0, x2: x1, y1: 60, y2: 60 }, ru);
+  for (let y = 2005; y <= 2025; y += 5) { el("line", { x1: X(y), x2: X(y), y1: 56, y2: 66, style: "stroke: var(--line); stroke-width: 2" }, ru); const t = el("text", { x: X(y), y: 86, "text-anchor": "middle" }, ru); t.textContent = y; }
+  const colorVar = { lista: "--accent", mma: "--wood", ibama: "--en", dec: "--out", prazo: "--no", today: "--accent" };
+  const used = [];
+  T.forEach((t, i) => {
+    let lane = 0; while (used.some(u => u.lane === lane && Math.abs(u.x - X(t[0])) < 14)) lane++;
+    used.push({ lane, x: X(t[0]) });
+    const c = el("circle", { cx: X(t[0]), cy: 60 - lane * 15, r: t[2] === "today" ? 7 : 6, style: `fill: var(${colorVar[t[2]]}); stroke: var(--bg); stroke-width: 2` }, ru);
+    if (!reduce) { c.style.animation = `fadein .5s ${0.05 * i}s both`; }
+    el("title", {}, c).textContent = `${t[1]} · ${t[3]}`;
+  });
+  [["2014", 2014.96], ["2022", 2022.43], ["2026", 2026.82]].forEach(([l, y]) => { const t = el("text", { x: X(y), y: 14, "text-anchor": "middle", style: "fill: var(--accent)" }, ru); t.textContent = "lista " + l; });
+
+  /* ---------- charts ---------- */
+  function hbars(id, rows, max, opts = {}) {
+    const box = document.getElementById(id);
+    rows.forEach((r, i) => {
+      const d = document.createElement("div"); d.className = "hbar";
+      d.innerHTML = `<span class="lab">${r.html || esc(r.label)}</span><span class="track"><span class="fill" style="display:block;width:${(r.v / max * 100).toFixed(1)}%;background:var(${r.c});animation-delay:${i * 0.08}s"></span></span><span class="n">${fmt(r.v)}</span>`;
+      if (r.title) d.title = r.title;
+      box.appendChild(d);
+    });
+  }
+  hbars("ch-lista", [{ label: "2014 · Port. 443", v: DADOS.lista["2014"], c: "--out" }, { label: "2022 · Port. 148", v: DADOS.lista["2022"], c: "--wood" }, { label: "2026 · Port. 1.783", v: DADOS.lista["2026"], c: "--accent" }], DADOS.lista["2026"]);
+  const ca = DADOS.catAM;
+  hbars("ch-cat", [{ label: "CR · Crítica", v: ca.CR || 0, c: "--cr" }, { label: "EN · Em perigo", v: ca.EN || 0, c: "--en" }, { label: "VU · Vulnerável", v: ca.VU || 0, c: "--vu" }], DADOS.arvoresAM);
+  const P = E.filter(e => e.sit === "Proibida"), OK = E.filter(e => e.sit !== "Proibida");
+  hbars("ch-proib", [
+    { label: "EN na lista", v: P.filter(e => e.c26 === "EN").length, c: "--en" },
+    { label: "CR na lista", v: P.filter(e => e.c26 === "CR").length, c: "--cr" },
+    { label: "VU + decreto", v: P.filter(e => e.regra === "norma").length, c: "--no", title: "Castanheira: Decreto 5.975/2006" }], P.length);
+  hbars("ch-perm", [
+    { label: "IN MMA 1/2015", v: OK.filter(e => e.regra === "geral").length, c: "--ok" },
+    { label: "+ IN IBAMA 28", v: OK.filter(e => e.regra === "cites").length, c: "--en", title: "Cumaru, cumaru-ferro e cedro" },
+    { label: "+ Dec. 4.722", v: OK.filter(e => e.regra === "mogno").length, c: "--wood", title: "Mogno" }], OK.length);
+  const top = [...E].sort((a, b) => b.exs - a.exs).slice(0, 12);
+  hbars("ch-exs", top.map(e => ({ html: `<i>${esc(e.sp)}</i>`, v: e.exs, c: e.sit === "Proibida" ? "--no" : "--ok", title: `${e.nome} · ${e.c26} · ${e.sit}` })), top[0].exs);
+  const legend = document.createElement("div"); legend.className = "split-legend";
+  legend.innerHTML = `<span><i class="dot" style="background:var(--no)"></i>Proibida</span><span><i class="dot" style="background:var(--ok)"></i>Permitida com condições</span>`;
+  document.getElementById("ch-exs").after(legend);
+
+  /* sankey */
+  (function () {
+    const sk = document.getElementById("sankey"), CAT = ["X", "VU", "EN", "CR"], LBL = { X: "Fora da lista", VU: "VU", EN: "EN", CR: "CR" };
+    const COL = { X: "--out", VU: "--vu", EN: "--en", CR: "--cr" }, YRS = ["c14", "c22", "c26"], YL = ["2014", "2022", "2026"];
+    const xs = [150, 440, 730], W = 16, top = 40, H = 320, gap = 14, tot = E.length;
+    const k = c => c || "X";
+    const pos = YRS.map(y => { const cnt = {}; CAT.forEach(c => cnt[c] = E.filter(e => k(e[y]) === c).length); const used = CAT.filter(c => cnt[c] > 0); const sc = (H - gap * (used.length - 1)) / tot; let yy = top; const p = {}; used.forEach(c => { p[c] = { y: yy, h: cnt[c] * sc, n: cnt[c], o: 0, i: 0 }; yy += cnt[c] * sc + gap; }); return { p, sc }; });
+    YRS.forEach((y, j) => { const t = el("text", { x: xs[j] + W / 2, y: 22, "text-anchor": "middle", class: "yr" }, sk); t.textContent = YL[j]; });
+    for (let j = 0; j < 2; j++) {
+      const a = pos[j], b = pos[j + 1];
+      CAT.forEach(s => CAT.forEach(t => {
+        const n = E.filter(e => k(e[YRS[j]]) === s && k(e[YRS[j + 1]]) === t).length;
+        if (!n) return;
+        const h0 = n * a.sc, h1 = n * b.sc, S = a.p[s], T = b.p[t];
+        const ya = S.y + S.o, yb = T.y + T.i; S.o += h0; T.i += h1;
+        const xa = xs[j] + W, xb = xs[j + 1], mx = (xa + xb) / 2;
+        const p = el("path", { d: `M${xa},${ya} C${mx},${ya} ${mx},${yb} ${xb},${yb} L${xb},${yb + h1} C${mx},${yb + h1} ${mx},${ya + h0} ${xa},${ya + h0} Z`, style: `fill: var(${COL[t]}); opacity: ${s === t ? .22 : .5}; animation-delay: ${j * .35}s` }, sk);
+        el("title", {}, p).textContent = `${YL[j]} ${LBL[s]} → ${YL[j + 1]} ${LBL[t]}: ${n} espécie${n > 1 ? "s" : ""}`;
+      }));
+    }
+    pos.forEach((P, j) => Object.entries(P.p).forEach(([c, v]) => {
+      el("rect", { x: xs[j], y: v.y, width: W, height: Math.max(v.h, 2), rx: 3, style: `fill: var(${COL[c]})` }, sk);
+      const left = j === 0, t = el("text", { x: left ? xs[j] - 8 : xs[j] + W + 8, y: v.y + v.h / 2 + 5, "text-anchor": left ? "end" : "start" }, sk);
+      t.textContent = `${LBL[c]} ${v.n}`;
+    }));
+  })();
+
+  /* facts */
+  const novas = E.filter(e => !e.c14 && !e.c22);
+  const piora = E.filter(e => /VU→EN|VU→CR|EN→CR/.test(e.mud));
+  const melhora = E.filter(e => /CR→EN|CR→VU|EN→VU/.test(e.mud));
+  const tags = arr => arr.map(e => `<span class="tag" title="${esc(e.mud)}">${esc(e.nome.split(" (")[0])} <i>${esc(e.sp)}</i> ${chip(e.c26)}</span>`).join("");
+  document.getElementById("facts").innerHTML =
+    `<div class="fact"><h3>Agravaram a categoria (${piora.length})</h3><p class="muted" style="font-size:15px">Eram exploráveis como VU e deixaram de ser.</p><div class="tags">${tags(piora)}</div></div>` +
+    `<div class="fact"><h3>Entraram em 2026 (${novas.length})</h3><p class="muted" style="font-size:15px">Inclui o cumaru, a madeira ameaçada mais coletada no estado.</p><div class="tags">${tags(novas.filter(e => e.grupo === "Comercial"))}<span class="tag">+ ${novas.filter(e => e.grupo !== "Comercial").length} de uso regional</span></div></div>` +
+    `<div class="fact"><h3>Melhoraram (${melhora.length})</h3><p class="muted" style="font-size:15px">Seguem em CR ou EN: nenhuma ficou explorável.</p><div class="tags">${tags(melhora)}</div><p class="muted" style="font-size:15px">Saíram da lista em 2026: <i>Ocotea tabacifolia</i> e <i>Virola parvifolia</i>.</p></div>`;
+
+  /* ---------- species table ---------- */
+  const F = { sit: "", grupo: "", q: "" };
+  const tb = document.getElementById("tb"), cnt = document.getElementById("cnt");
+  const norm = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const sorted = [...E].sort((a, b) => (a.sit === b.sit ? 0 : a.sit === "Proibida" ? -1 : 1) || a.nome.localeCompare(b.nome, "pt"));
+  function render() {
+    const q = norm(F.q);
+    const rows = sorted.filter(e => (!F.sit || e.sit === F.sit) && (!F.grupo || e.grupo === F.grupo) && (!q || norm(e.sp + " " + e.nome + " " + e.fam).includes(q)));
+    tb.innerHTML = rows.map(e => `<tr><td><i>${esc(e.sp)}</i><div class="vn">${esc(e.fam)}</div></td><td>${esc(e.nome)}<div class="vn">${e.grupo === "Comercial" ? "comercial" : "uso regional"}</div></td><td class="c">${chip(e.c14)}</td><td class="c">${chip(e.c22)}</td><td class="c">${chip(e.c26)}</td><td>${pill(e.sit)}<div class="fn">${esc(e.fund)}</div></td></tr>`).join("") || `<tr><td colspan="6" class="muted">Nenhuma espécie com esses filtros.</td></tr>`;
+    cnt.textContent = `${rows.length} de ${E.length} espécies`;
+  }
+  document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+    F[b.dataset.f] = b.dataset.v;
+    document.querySelectorAll(`.seg button[data-f="${b.dataset.f}"]`).forEach(x => x.setAttribute("aria-pressed", x === b));
+    render();
+  }));
+  document.getElementById("busca").addEventListener("input", ev => { F.q = ev.target.value; render(); });
+  render();
+
+  document.getElementById("tb-ved").innerHTML = VED.map(v => `<tr><td><i>${v.sp}</i></td><td>${v.nome}</td><td>${v.lista ? chip(v.lista) : '<span class="muted">não consta</span>'}</td><td>${v.am ? "sim" : '<span class="muted">não</span>'}</td></tr>`).join("");
+
+  /* ---------- names that mislead ---------- */
+  const byName = sp => E.find(e => e.sp === sp);
+  const st = sp => { const e = byName(sp); return e ? pill(e.sit) : ""; };
+  const NAMES = [
+    { v: "louro-preto", rows: [["Nectandra grisea", "VU"], ["Dicypellium manausense", "CR"]], note: "Na base de espécies da Brandão, <i>Dicypellium manausense</i> aparece 53 vezes como louro-preto." },
+    { v: "cumaru", rows: [["Dipteryx odorata", "VU"], ["Dipteryx ferrea", "VU"], ["Dipteryx micrantha", "EN"], ["Dipteryx charapilla", null], ["Dipteryx rosea", null]], note: "As três últimas são vedadas pela IN IBAMA 28/2024." },
+    { v: "tauari", rows: [["Couratari tauari", "EN"], ["Couratari atrovinosa", "EN"]], note: "Outras espécies vendidas como tauari estão fora da lista." },
+    { v: "matamatá", rows: [["Eschweilera romeu-cardosoi", "EN"]], note: "49 registros na base da Brandão como matamatá ou ripeiro; dezenas de outras <i>Eschweilera</i> usam o mesmo nome." },
+  ];
+  document.getElementById("names").innerHTML = `<div class="name-card" style="background:transparent;border:0;padding:0"><h3>Um nome, situações opostas</h3><p class="muted">O DOF usa o nome popular. Estes grupos misturam espécies permitidas e proibidas. A IN IBAMA 28/2024 já veda produto identificado só até gênero para ipês, cumarus e cedros.</p></div>` +
+    NAMES.map(n => `<div class="name-card"><div class="vulgar">“${n.v}”</div><ul>${n.rows.map(([sp, c]) => `<li><i>${sp}</i><span>${chip(c)} ${VEDSET.has(sp) && !c ? '<span class="pill no">Vedada</span>' : st(sp)}</span></li>`).join("")}</ul><div class="note">${n.note}</div></div>`).join("");
+})();
+</script>
+
+</html>
